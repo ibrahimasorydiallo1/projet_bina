@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from io import BytesIO
 
 st.set_page_config(page_title="Calculateur de Marges Gâteaux", layout="wide")
 st.title("🍰 Calculateur avec Lignes de Synthèse Colorées")
@@ -64,8 +65,6 @@ def colorer_lignes(row):
 # 5. Affichage avec Style
 st.subheader("Détails et synthèses:")
 st.dataframe(df_final.style.apply(colorer_lignes, axis=1).format(subset=["Total"], precision=2))
-
-from io import BytesIO
 
 # --- BLOC EXPORT EXCEL ---
 st.divider()
