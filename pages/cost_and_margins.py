@@ -53,18 +53,16 @@ def load_recipe(categorie):
     
     return df
 
-if "df_pour_affichage" not in st.session_state:
-    st.session_state.df_pour_affichage = None
 
 # --- 4. INTERFACE ---
 choix = st.selectbox("Catégorie à gérer :", ["Petits Vanilles", "Grands Vanilles", "Petits chocolat", "Grands chocolat"])
 prix_vente = 4200 if "Petits" in choix else 8500
 
-if st.session_state.df_pour_affichage is None:
-    # Ici, appelle la fonction load_recipe(choix) habituelle
-    df_initial = load_recipe(choix) 
-    df_initial["Total"] = df_initial["Quantité"] * df_initial["Prix_unitaire_en_fg"]
-    st.session_state.df_pour_affichage = df_initial
+# if st.session_state.df_pour_affichage is None:
+# Ici, appelle la fonction load_recipe(choix) habituelle
+df_initial = load_recipe(choix) 
+df_initial["Total"] = df_initial["Quantité"] * df_initial["Prix_unitaire_en_fg"]
+# st.session_state.df_pour_affichage = df_initial
 
 st.subheader(f"Édition de la recette : {choix}")
 st.info("💡 Modifier un prix ici l'appliquera automatiquement à toutes les autres recettes.")
@@ -106,7 +104,7 @@ if st.button("🚀 Enregistrer et Générer le Bilan"):
     # Style
     def style_rows(row):
         if row["Matière"] == "MARGE BÉNÉFICE P/UNITÉ": return ['background-color: #fbc02d; font-weight: bold'] * len(row)
-        if "TOTAL" in str(row["Matière"]): return ['background-color: #d1e7ff'] * len(row)
+        if "TOTAL" in str(row["Matière"]): return ['background-color: blue'] * len(row)
         return [''] * len(row)
 
     st.success("Données sauvegardées et prix synchronisés !")
