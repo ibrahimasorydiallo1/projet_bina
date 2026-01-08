@@ -83,7 +83,7 @@ if st.button("🚀 Enregistrer et Générer le Bilan"):
     
     # On met à jour le dictionnaire de session pour que l'affichage suive
     st.session_state.df_pour_affichage = edited_df
-    st.rerun()
+    # st.rerun()
 
     # 3. CALCULS DE SYNTHÈSE
     total_general = edited_df["Total"].sum()
@@ -121,20 +121,5 @@ if st.button("🚀 Enregistrer et Générer le Bilan"):
         with pd.ExcelWriter(output_ex, engine='openpyxl') as writer:
             df_final.to_excel(writer, index=False, sheet_name='Bilan')
         st.download_button("📥 Télécharger Excel", output_ex.getvalue(), f"Bilan_{choix}.xlsx")
-
-    with col2:
-        # PDF
-        pdf = FPDF()
-        pdf.add_page()
-        pdf.set_font("Arial", "B", 16)
-        pdf.cell(190, 10, f"Bilan : {choix}", ln=True, align='C')
-        pdf.set_font("Arial", "", 12)
-        pdf.ln(10)
-        pdf.cell(100, 10, f"Cout Unitaire : {cout_unitaire:,.2f} FG")
-        pdf.ln(8)
-        pdf.cell(100, 10, f"Marge Unitaire : {marge_unitaire:,.2f} FG")
-        pdf_out = pdf.output()
-        st.download_button("Télécharger PDF", bytes(pdf_out), f"Bilan_{choix}.pdf")
-
 else:
     st.info("Cliquez sur le bouton pour valider vos changements et activer la synchronisation des prix.")
