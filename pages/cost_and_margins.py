@@ -53,16 +53,18 @@ def load_recipe(categorie):
     
     return df
 
+if "df_pour_affichage" not in st.session_state:
+    st.session_state.df_pour_affichage = None
 
 # --- 4. INTERFACE ---
 choix = st.selectbox("Catégorie à gérer :", ["Petits Vanilles", "Grands Vanilles", "Petits chocolat", "Grands chocolat"])
 prix_vente = 4200 if "Petits" in choix else 8500
 
-# if st.session_state.df_pour_affichage is None:
-# Ici, appelle la fonction load_recipe(choix) habituelle
-df_initial = load_recipe(choix) 
-df_initial["Total"] = df_initial["Quantité"] * df_initial["Prix_unitaire_en_fg"]
-# st.session_state.df_pour_affichage = df_initial
+if st.session_state.df_pour_affichage is None:
+    # Ici, appelle la fonction load_recipe(choix) habituelle
+    df_initial = load_recipe(choix) 
+    df_initial["Total"] = df_initial["Quantité"] * df_initial["Prix_unitaire_en_fg"]
+    st.session_state.df_pour_affichage = df_initial
 
 st.subheader(f"Édition de la recette : {choix}")
 st.info("💡 Modifier un prix ici l'appliquera automatiquement à toutes les autres recettes.")
@@ -119,5 +121,7 @@ if st.button("🚀 Enregistrer et Générer le Bilan"):
         with pd.ExcelWriter(output_ex, engine='openpyxl') as writer:
             df_final.to_excel(writer, index=False, sheet_name='Bilan')
         st.download_button("📥 Télécharger Excel", output_ex.getvalue(), f"Bilan_{choix}.xlsx")
+
+
 else:
     st.info("Cliquez sur le bouton pour valider vos changements et activer la synchronisation des prix.")
