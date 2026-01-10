@@ -109,6 +109,9 @@ if st.checkbox("🔍 Faire un calcul prévisionnel", key="activer_prevision"):
                 
                 total_prevu = df_prevision["Total"].sum()
                 st.info(f"Coût total estimé des matières : **{total_prevu:,.0f} FG**")
+                # bénéfice estimé
+                benefice_prevu = (prix_vente * prevision) - total_prevu
+                st.info(f"Bénéfice estimé : **{benefice_prevu:,.0f} FG**")
 
                 # EXCEL
                 output_ex = BytesIO()
